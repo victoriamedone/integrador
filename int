@@ -1,0 +1,403 @@
+//declaramos el prompt para poder ingresar datos por consola.
+const prompt = require("prompt-sync")();
+
+//1)a- crear array con los datos de los libros(minimo10)
+let lista = [
+{
+    id: 1,    
+    titulo: "Cien años de soledad",
+    autor: "Gabriel García Márquez",
+    anio: 1967,
+    genero: "Realismo mágico",
+    disponibilidad:[],
+},
+{
+    id: 2, 
+    titulo: "1984",
+    autor: "George Orwell",
+    anio: 1949,
+    genero: "Distopía",
+    disponibilidad: [],
+},
+{
+    id: 3, 
+    titulo: "Orgullo y prejuicio",
+    autor: "Jane Austen",
+    anio: 1813,
+    genero: "Romántico",
+    disponibilidad: [],
+
+},
+{
+    id: 4,
+    titulo: "El código Da Vinci",
+    autor: "Dan Brown",
+    anio: 2003,
+    genero: "Thriller",
+    disponibilidad: [],
+},
+{
+    id: 5,
+    titulo: "Los juegos del hambre",
+    autor: "Suzanne Collins",
+    anio: 2008,
+    genero: "Ciencia ficción",
+    disponibilidad:[],
+},
+{
+    id:6,
+    titulo: "Matar a un ruiseñor",
+    autor: "Harper Lee",
+    anio: 1960,
+    genero: "Ficción histórica",
+    disponibilidad: [],
+},
+{
+    id: 7,
+    titulo: "El señor de los anillos",
+    autor: "J.R.R. Tolkien",
+    anio: 1954,
+    genero: "Fantasía",
+    disponibilidad: [],
+},
+{
+    id: 8,
+    titulo: "Crónica de una muerte anunciada",
+    autor: "Gabriel García Márquez",
+    anio: 1981,
+    genero: "Novela negra",
+    disponibilidad: [],
+},
+{
+    id: 9,
+    titulo: "Sapiens: De animales a dioses",
+    autor: "Yuval Noah Harari",
+    anio: 2011,
+    genero: "No ficción",
+    disponibilidad: [],
+},
+{
+    id: 10,
+    titulo: "El alquimista",
+    autor: "Paulo Coelho",
+    anio: 1988,
+    genero: "Ficción filosófica",
+    disponibilidad: [],
+}
+];
+
+//1)b- crear un array con los usuarios(minimo 5).
+
+let usuarios = [
+    {
+        id: 1,
+        nombre: "Ana Martínez",
+        email: "ana.martinez@gmail.com",
+        librosPrestados: []
+    },
+    {
+        id: 2,
+        nombre: "Carlos Gómez",
+        email: "carlos.gomez@hotmail.com",
+        librosPrestados: []
+    },
+    {
+        id: 3,
+        nombre: "Beatriz Fernández",
+        email: "beatriz.fernandez@outlook.com",
+        librosPrestados: []
+    },
+    {
+        id: 4,
+        nombre: "David Rodríguez",
+        email: "david.rodriguez@gmail.com",
+        librosPrestados: []
+    },
+    {
+        id: 5,
+        nombre: "Elena Pérez",
+        email: "elena.perez@yahoo.com.ar",
+        librosPrestados: []
+    }
+];
+
+//2)a-Implementar una función agregarLibro(id, titulo, autor, anio, genero)
+//que agregue un nuevo libro al array libros.
+
+function agregarLibro() {
+    let nuevoLibro = {
+        id: 11,
+        titulo: "La sombra del viento",
+        autor: "Carlos Ruiz Zafón",
+        anio: 2001,
+        genero: "Suspenso",
+        disponibilidad: []
+    };
+
+    lista.push(nuevoLibro);
+
+};
+agregarLibro(lista);
+
+//2)b- Crear una función buscarLibro(criterio, valor) que permita buscar
+// libros por título, autor o género utilizando el algoritmo de búsqueda
+// lineal.
+
+function BuscarLibro() {
+    let criterio = prompt("Ingrese el criterio de búsqueda (titulo, autor, genero):").toLowerCase();
+    let valor = prompt("Ingrese el valor de búsqueda:");
+
+    function buscarLibro(criterio, valor) {
+        valor = valor.toLowerCase(); 
+
+        return lista.filter(libro => {
+            if (criterio === 'titulo') {
+                return libro.titulo.toLowerCase().includes(valor);
+            } else if (criterio === 'autor') {
+                return libro.autor.toLowerCase().includes(valor);
+            } else if (criterio === 'genero') {
+                return libro.genero.toLowerCase().includes(valor);
+            } else {
+                console.log("Criterio de búsqueda inválido. Use 'titulo', 'autor' o 'genero'.");
+                return false;
+            }
+        });
+    }
+
+    if (criterio && valor) {
+        let resultados = buscarLibro(criterio, valor);
+
+        if (resultados.length > 0) {
+            console.log("Libros encontrados:");
+                resultados.forEach(libro => {
+                console.log(libro);
+             });
+        };
+
+    } else {
+        console.log("Criterio y valor de búsqueda no pueden estar vacíos.");
+    }
+}
+
+BuscarLibro();
+
+//2)c- Desarrollar una función ordenarLibros(criterio) que ordene los libros
+// por título o año utilizando el algoritmo de ordenamiento burbuja
+// (bubble sort) y luego muestre los libros ordenados en la consola.
+
+function ordenarLibros() {
+    let criterio = prompt("Ingrese el criterio de ordenación (titulo, anio): ").toLowerCase();
+    
+    if (criterio === 'titulo' || criterio === 'anio') {
+        for (let i = 0; i < lista.length - 1; i++) {
+            for (let j = 0; j < lista.length - i - 1; j++) {
+                let libroActual = lista[j];
+                let libroSiguiente = lista[j + 1];
+                
+                let comparacion;
+                if (criterio === 'titulo') {
+                    comparacion = libroActual.titulo.localeCompare(libroSiguiente.titulo);
+                } else if (criterio === 'anio') {
+                    comparacion = libroActual.anio - libroSiguiente.anio;
+                }
+
+                if (comparacion > 0) {
+                    [lista[j], lista[j + 1]] = [lista[j + 1], lista[j]];
+                }
+            }
+        }
+
+        // console.log("Lista ordenada:");
+        // lista.forEach(libro => {
+        //     console.log(libro);
+        // });
+
+    } else {
+        console.log("Criterio de ordenación inválido. Por favor ingrese 'titulo' o 'anio'.");
+    }
+}
+
+ordenarLibros();
+
+//2)d- Desarrollar una función borrarLibro(id) que elimine el libro que se le
+//pase por parámetro.
+
+// function borrarLibro() {
+//     let id = parseInt(prompt("Ingrese el ID del libro que desea eliminar:"));
+
+//     if (!isNaN(id)) {
+//         const indice = lista.findIndex(libro => libro.id === id);
+        
+//         if (indice !== -1) {
+//             lista.splice(indice, 1);
+//             console.log("El libro con ID " + id + " ha sido eliminado.");
+//         } else {
+//             console.log("El libro con ID " + id + " no pudo ser encontrado.");
+//         }
+        
+//         // console.log("Lista actualizada:");
+//         // console.log(lista);
+//     } else {
+//         console.log("ID inválido. Por favor ingrese un número válido.");
+//     }
+// }
+
+// borrarLibro();
+
+//3)a- Implementar una función registrarUsuario(nombre, email) que
+//agregue un nuevo usuario al array usuarios
+
+function agregarUsuario() {
+    let nuevoUsuario = {
+        id: 6,
+        nombre: "Enzo Pérez",
+        email: "enzope24@gmail.com",
+        librosPrestados: []
+    };
+
+    usuarios.push(nuevoUsuario);
+};
+
+agregarUsuario(usuarios);
+
+//3)b-Implementar una función mostrarTodosLosUsuarios() que me
+//devuelva el array completo de usuarios
+
+function mostrarTodosLosUsuarios(usuarios){
+    return usuarios
+};
+
+
+//  console.log("LISTA DE USUARIOS ACTUALIZADA: ");
+//  console.log(mostrarTodosLosUsuarios(usuarios));
+
+//3)c- Crear una función buscarUsuario(email) que devuelva la información
+//de un usuario dado su email.
+
+function buscarUsuario() {
+    let email = prompt("Ingrese el correo electrónico del usuario que desea buscar:").toLowerCase();
+    let usuario = usuarios.find(usuario => usuario.email.toLowerCase() === email);
+
+    if (usuario) {
+        console.log("Usuario encontrado:");
+        console.log(usuario);
+    } else {
+        console.log("Usuario no encontrado con el correo electrónico proporcionado.");
+    };
+};
+
+buscarUsuario();
+
+//3)d- Implementar una función borrarUsuario(nombre, email) que elimine el
+//usuario seleccionado.
+
+function borrarUsuario() {
+    let email = prompt("Ingrese el correo electrónico del usuario que desea borrar:").toLowerCase();
+
+    let usuario = usuarios.find(usuario => usuario.email.toLowerCase() === email);
+
+    if (usuario) {
+        console.log("Usuario eliminado:");
+        console.log(usuario);
+        usuarios.splice(usuario);
+
+    } else {
+        console.log("Usuario no encontrado con el correo electrónico proporcionado.");
+    }
+}
+
+borrarUsuario();
+
+//4)a- Desarrollar una función prestarLibro(idLibro, idUsuario) que marque
+//un libro como no disponible y lo agregue a la lista de libros prestados
+//del usuario.
+
+function prestarLibro(idLibro, idUsuario) {
+    let idLibro = parseInt(prompt("Ingrese el ID del libro a prestar: "));
+    let idUsuario = parseInt(prompt("Ingrese el ID del usuario que presta el libro: "));
+
+    let libro = lista.find(libro => libro.id === idLibro);
+    let usuario = usuarios.find(usuario => usuario.id === idUsuario);
+
+    if (libro && usuario && !libro.prestado) {
+        libro.prestado = true;
+        usuario.librosPrestados.push(libro.titulo);
+        console.log("El libro " + libro.titulo + " ha sido prestado a " + usuario.nombre + ".");
+    } else {
+        console.log("Libro o usuario no encontrado, o libro ya prestado.");
+    }
+};
+
+prestarLibro();
+
+// 4) b- Implementar una función devolverLibro(idLibro, idUsuario) que
+// marque un libro como disponible y lo elimine de la lista de libros
+// prestados del usuario.
+
+
+function devolverLibro() {
+    let idLibro = parseInt(prompt("Ingrese el ID del libro a devolver: "));
+    let idUsuario = parseInt(prompt("Ingrese el ID del usuario que devuelve el libro: "));
+
+    let libro = lista.find(libro => libro.id === idLibro);
+    let usuario = usuarios.find(usuario => usuario.id === idUsuario);
+
+    if (libro && usuario && libro.prestado) {
+        let index = usuario.librosPrestados.indexOf(libro.titulo);
+        if (index !== -1) {
+            usuario.librosPrestados.splice(index, 1);
+            libro.prestado = false;
+            console.log("El libro " + libro.titulo + " ha sido devuelto por " + usuario.nombre + ".");
+        } else {
+            console.log("El libro no está en la lista de libros prestados del usuario.");
+        }
+    } else {
+        console.log("Libro o usuario no encontrado.");
+    }
+}
+
+devolverLibro();
+
+// 5) Crear una función generarReporteLibros() que utilice métodos
+// avanzados de arrays (.map(), .filter(), .reduce()) para generar un
+// reporte con la siguiente información:
+// ✓ Cantidad total de libros.
+// ✓ Cantidad de libros prestados.
+// ✓ Cantidad de libros por género.
+// ✓ Libro más antiguo y más nuevo
+
+function generarReporteLibros() {
+
+    const cantidadTotalLibros = lista.length;
+    const cantidadLibrosPrestados = lista.filter(libro => libro.prestado).length;
+
+    // Cantidad de libros por género
+    const librosPorGenero = lista.reduce((acumulador, libro) => {
+        acumulador[libro.genero] = acumulador[libro.genero] + 1 || 1;
+        return acumulador;
+    }, {});
+
+    // Encontrar el libro más antiguo
+    const libroMasAntiguo = lista.reduce((libroAntiguo, libroActual) => {
+        return (libroActual.anio < libroAntiguo.anio) ? libroActual : libroAntiguo;
+    });
+    
+    // Encontrar el libro más nuevo
+    const libroMasNuevo = lista.reduce((libroNuevo, libroActual) => {
+        return (libroActual.anio > libroNuevo.anio) ? libroActual : libroNuevo;
+    });
+    
+
+    const reporte = {
+        cantidadTotalLibros,
+        cantidadLibrosPrestados,
+        librosPorGenero,
+        libroMasAntiguo,
+        libroMasNuevo
+    };
+
+    return reporte;
+}
+
+const reporteLibros = generarReporteLibros(lista);
+console.log(reporteLibros);
